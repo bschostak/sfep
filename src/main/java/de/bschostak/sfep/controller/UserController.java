@@ -1,8 +1,9 @@
 package de.bschostak.sfep.controller;
 
 import de.bschostak.sfep.model.Employee;
-import de.bschostak.sfep.repository.EmployeeRepository;
+import de.bschostak.sfep.service.SaverService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,45 +11,40 @@ import java.util.List;
 @Slf4j
 @RestController
 public class UserController {
-    public Logger LOG = LoggerFactory.getLogger(UserController.class);
+    private final SaverService saverService;
 
-    EmployeeRepository employeeRepository;
+    @Autowired
+    public UserController(SaverService saverService) {
+        this.saverService = saverService;
+    }
 
     @GetMapping("/")
     public String hello() {
         log.info("Hello World");
         return "Hello World";
     }
-
     @GetMapping("/employees")
-    public List<Employee> employees() {
-//        TODO: Implement employees
-        return employeeRepository.findAll();
+    public List<Employee> getAllEmployees() {
+        return saverService.getAllEmployees();
     }
 
     @GetMapping("/employees/{id}")
     public Employee getSingleEmployee(@PathVariable("id") int id) {
-//        TODO: Implement getSingleEmployee
-        return employeeRepository.findById(id).get();
+        return saverService.getSingleEmployee(id);
     }
 
-    @PostMapping("/employee/{id}")
+    @PostMapping("/employees/{id}")
     public Employee createEmployee(@PathVariable("id") int id) {
-//        TODO: Implement create
-        return employeeRepository.findById(id).get();
+        return null; // TODO: Implement create
     }
 
-    @PutMapping("/employee/{id}")
+    @PutMapping("/employees/{id}")
     public Employee updateEmployee(@PathVariable("id") int id) {
-//        TODO: Implement update
-        return employeeRepository.findById(id).get();
+        return null; // TODO: Implement update
     }
 
-    @DeleteMapping("/employee/{id}")
-    public Employee deleteEmployee(@PathVariable("id") int id) {
+    @DeleteMapping("/employees/{id}")
+    public void deleteEmployee(@PathVariable("id") int id) {
 //        TODO: Implement delete
-        return employeeRepository.findById(id).get();
     }
 }
-
-//TODO: Implement business logic
